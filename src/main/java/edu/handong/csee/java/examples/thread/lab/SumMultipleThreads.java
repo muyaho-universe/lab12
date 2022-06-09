@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class SumMultipleThreads {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 
 		long to = 10000000;
 		ArrayList<SumRunner> sumRunners = new ArrayList<SumRunner>();
@@ -30,12 +30,16 @@ public class SumMultipleThreads {
 			threadsForSubSum.add(thread);
 			System.out.println("Thread-" + i + " started!");
 		}
-
 		long grandTotal = 0;
+		
+		for(Thread sumThread: threadsForSubSum) {
+			sumThread.join(1000);
+		}
+		
 		for(SumRunner runner:sumRunners) {
 			grandTotal += runner.totalSum;
 		}
-
+		
 		System.out.println("Grand Total = " + grandTotal);
 	}
 
